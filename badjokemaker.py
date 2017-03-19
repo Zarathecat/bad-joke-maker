@@ -63,6 +63,11 @@ def read_page(url):
     page = urllib2.urlopen(url).read()
     return page
 
+# TODO: Parse more effectively in get_definition; 
+# this misses some data it should include, 
+# keeps some data it should exclude, and errors sometimes.
+# In other words, it's awful. :)
+
 def get_definition(soup):
 
     meaning = soup.li.get_text()
