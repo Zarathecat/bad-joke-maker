@@ -63,25 +63,24 @@ def read_page(url):
     page = urllib2.urlopen(url).read()
     return page
 
-# TODO: Parse more effectively in get_definition; 
-# this misses some data it should include, 
-# keeps some data it should exclude, and errors sometimes.
-# In other words, it's awful. :)
-
+# TODO: handle error when there are no <li> tags
 def get_definition(soup):
 
     meaning = soup.li.get_text()
-    meaning = meaning.split("(n)")
-    meaning = meaning[-1][len(word_1)+2:]
+    meaning = meaning.split("(") # there are two pairs of brackets, 
+                                 # we want stuff between 2nd pair
+    meaning = meaning[2]         # get stuff after 2nd opening bracket
+    meaning = meaning.split(")") # cut out stuff after second closing bracket
+    meaning = meaning[0] 
     return meaning
 
 def print_joke(meaning_1, meaning_2, word_1, word_2):
     print "What's a word that means:"
     print meaning_1
-    print "And can also be used to express appreciation for:"
-    print meaning_2
-    print "?"
     time.sleep(3)
+    print "And can also be used to express appreciation for:"
+    print meaning_2 + "?"
+    time.sleep(5)
     print "That's right, " + word_1 + " (mmm," + word_2 + "!)"
 
 words_path = "/usr/share/dict/"
@@ -101,8 +100,8 @@ word_1, word_2 = get_suitable_word(words_starting_with_m, stripped_words)
 
 words = [word_1, word_2]
 
-for word in words:
-   word = remove_newline(word)
+word_1 = remove_newline(word_1)
+word_2 = remove_newline(word_2)
 
 dictionary = "http://wordnetweb.princeton.edu/perl/webwn?s="
 
