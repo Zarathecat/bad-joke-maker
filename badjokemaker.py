@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import random
 import time
 import urllib2
@@ -16,7 +18,8 @@ def make_words_list(words_path):
     all_words = []
     open_words_list = open(words_path, "r")
     
-    for line in open_words_list:
+    for undecoded_line in open_words_list:
+        line = undecoded_line.decode("utf-8")
         if "'" not in line: # ignore stuff with apostrophes
             all_words.append(line)
 
