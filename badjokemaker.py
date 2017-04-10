@@ -14,7 +14,7 @@ def get_full_path(path, file):
 
 def make_words_list(words_path):
     all_words = []
-    open_words_list = open(path_to_words, "r")
+    open_words_list = open(words_path, "r")
     
     for line in open_words_list:
         if "'" not in line: # ignore stuff with apostrophes
@@ -26,7 +26,7 @@ def make_words_list(words_path):
 def get_words_starting_with_letter(words, letter):
     words_starting_with_letter = []
 
-    for line in all_words:
+    for line in words:
         if line.startswith(letter):
             words_starting_with_letter.append(line)
     return words_starting_with_letter
@@ -38,7 +38,7 @@ def get_stripped_words(words_starting_with_letter):
         stripped_words.append(word[1:])
     return stripped_words
 
-def get_suitable_word(words_starting_with_letter, stripped_words):
+def get_suitable_word(words_starting_with_letter, stripped_words, words):
 
     found_a_word = False
 
@@ -49,7 +49,7 @@ def get_suitable_word(words_starting_with_letter, stripped_words):
         word_1 = words_starting_with_letter[joke_word_index]
         word_2 = stripped_words[joke_word_index]
 
-        if word_2 in all_words:
+        if word_2 in words:
             found_a_word=True
 
     return word_1, word_2
@@ -96,9 +96,7 @@ words_starting_with_m = get_words_starting_with_letter(all_words, m)
 
 stripped_words = get_stripped_words(words_starting_with_m)
 
-word_1, word_2 = get_suitable_word(words_starting_with_m, stripped_words)
-
-words = [word_1, word_2]
+word_1, word_2 = get_suitable_word(words_starting_with_m, stripped_words, all_words)
 
 word_1 = remove_newline(word_1)
 word_2 = remove_newline(word_2)
